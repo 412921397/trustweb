@@ -1,6 +1,7 @@
 {
   "i18n-ally.localesPaths": ["src/i18n"],
   "editor.formatOnSave": true,
+  "files.eol": "\n",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.configPath": ".prettierrc",
   "stylelint.validate": ["css", "less", "scss", "vue"],
