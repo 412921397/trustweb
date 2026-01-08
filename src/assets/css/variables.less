@@ -1,0 +1,24 @@
+:root {
+  --bg-color: #ffffff;
+  --text-color: #111111;
+  --primary-color: #409eff;
+}
+
+/* ============================
+   深色模式（通过 html.dark 启动）
+================================ */
+html.dark {
+  --bg-color: #1b1b1c;
+  --text-color: #e5e5e5;
+  --primary-color: #5c9dff;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* ============================
+   Less 变量映射（可选）
+   让 less 文件内部也能使用主题变量
+   ※ 重点：Less 变量引用 CSS 变量
+================================ */
+@bg-color: var(--bg-color);
+@text-color: var(--text-color);
+@primary-color: var(--primary-color);

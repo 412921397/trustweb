@@ -1,0 +1,11 @@
+$primary-color: #1890ff;
+$secondary-color: #05f;
+$bg-color-light: #ffffff;
+$bg-color-dark: #0b0c0f;
+
+// Mixin 示例
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

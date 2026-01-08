@@ -1,0 +1,78 @@
+@config "../../../tailwind.config.js";
+@import "tailwindcss";
+@import "tailwindcss/utilities";
+
+/* 自定义 CSS 变量和样式 */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #1a1a1a;
+  --color-gradientLightBlueToBlue: linear-gradient(152deg, #2eccff -2.65%, #0500ff 82.44%);
+  --color-gradientYellowToPink: linear-gradient(180deg, #fff9a8 5.98%, #ffaefe 77.73%);
+  --color-gradientYellowToGreen: linear-gradient(180deg, #fff465 5.98%, #48ff91 77.73%);
+}
+
+html.dark {
+  --bg-color: #0b0c0f;
+  --text-color: #f3f4f6;
+}
+
+@theme {
+  --color-primary: oklch(0.62 0.19 149.5);
+  --font-sans: "Inter", "sans-serif";
+  --color-trustBlue: rgb(5 0 255 / 1);
+  --color-trustGreen: #00ff9a;
+  --color-trustBlack: #1b1b1c;
+  --color-trustWhite: #ffffff;
+  --color-white: #ffffff;
+  --color-gradientLightBlueToBlue: linear-gradient(152deg, #2eccff -2.65%, #0500ff 82.44%);
+  --color-gradientYellowToPink: linear-gradient(180deg, #fff9a8 5.98%, #ffaefe 77.73%);
+  --color-gradientYellowToGreen: linear-gradient(180deg, #fff465 5.98%, #48ff91 77.73%);
+  --color-tintBlue: rgb(219, 220, 229);
+  /* --color-tintBlack: #1b1b1c; */
+  --color-tintWhite: #ffffff;
+  --color-baseWihte: rgb(244 244 247);
+  --color-lightBlack: #242426;
+  --color-tintBlack: #454545;
+  --color-baseWhite: rgb(244 244 247);
+  --color-softGray: rgb(241 244 248);
+  /* --color-lightBlack: #242426; */
+}
+
+.bg-gradientLightBlueToBlue {
+  background-image: var(--color-gradientLightBlueToBlue);
+  /* 可选：背景位置/大小/重复 */
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.bg-gradientYellowToPink {
+  background-image: var(--color-gradientYellowToPink);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.bg-gradientYellowToGreen {
+  background-image: var(--color-gradientYellowToGreen);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/** 弹窗框 */
+.v-binder-follower-content {
+  top: 42px;
+  left: -157px;
+}
+
+.tabs-scroll :deep(.n-tabs-nav) {
+  @apply overflow-x-auto;
+}
+
+.tabs-scroll :deep(.n-tabs-nav) {
+  @apply overflow-x-auto;
+}
+
+.tabs-scroll :deep(.n-tabs-nav__content) {
+  @apply whitespace-nowrap;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
