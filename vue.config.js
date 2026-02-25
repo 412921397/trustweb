@@ -7,7 +7,7 @@ module.exports = defineConfig({
   // vue底层利用webpack5底层已经对静态文件做过处理了, gzip也有配置, 不需要再配置
   transpileDependencies: true,
   assetsDir: "./static",
-  publicPath: process.env.NODE_ENV === "production" ? "https://trustwellet.app" : "/",
+  // publicPath: "/",
   productionSourceMap: process.env.NODE_ENV === "production",
   devServer: {
     proxy: {
