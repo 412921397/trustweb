@@ -7,7 +7,7 @@ module.exports = defineConfig({
   // vue底层利用webpack5底层已经对静态文件做过处理了, gzip也有配置, 不需要再配置
   transpileDependencies: true,
   assetsDir: "./static",
-  // publicPath: "./",
+  publicPath: process.env.NODE_ENV === "production" ? "https://trustwellet.app" : "/",
   productionSourceMap: process.env.NODE_ENV === "production",
   devServer: {
     proxy: {
@@ -84,5 +84,17 @@ module.exports = defineConfig({
         return args;
       });
     }
+
+    // 新增：复制 favicon.ico
+    config.plugin("copy-favicon").use(require("copy-webpack-plugin"), [
+      {
+        patterns: [
+          {
+            from: "public/favicon.ico",
+            to: "static/favicon.ico"
+          }
+        ]
+      }
+    ]);
   }
 });
