@@ -86,15 +86,20 @@ module.exports = defineConfig({
     }
 
     // 新增：复制 favicon.ico
-    config.plugin("copy-favicon").use(require("copy-webpack-plugin"), [
-      {
-        patterns: [
+    if (process.env.NODE_ENV === "production") {
+      // 修改默认的 copy 插件配置
+      config.plugin("copy").tap((args) => {
+        args[0].patterns = [
           {
             from: "public/favicon.ico",
-            to: "static/favicon.ico"
+            to: "static/favicon.ico", // 将所有 public 文件复制到 static 文件夹
+            globOptions: {
+              ignore: [".*"] // 忽略隐藏文件
+            }
           }
-        ]
-      }
-    ]);
+        ];
+        return args;
+      });
+    }
   }
 });
