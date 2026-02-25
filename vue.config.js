@@ -6,8 +6,11 @@ const { NaiveUiResolver } = require("unplugin-vue-components/resolvers");
 module.exports = defineConfig({
   // vue底层利用webpack5底层已经对静态文件做过处理了, gzip也有配置, 不需要再配置
   transpileDependencies: true,
-  assetsDir: "./static",
-  // publicPath: "/",
+  assetsDir: "static", // 改为 "static" 而不是 "./static"
+  publicPath:
+    process.env.NODE_ENV === "production"
+      ? "https://static.trustwellet.app/trust-web" // 去掉末尾斜杠
+      : "/",
   productionSourceMap: process.env.NODE_ENV === "production",
   devServer: {
     proxy: {
