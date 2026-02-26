@@ -15,8 +15,9 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       "/api": {
-        target: "https://trustwallet.com",
+        target: "https://trustwallet.com/api",
         changeOrigin: true,
+        secure: true,
         pathRewrite: {
           "^/api": ""
         }

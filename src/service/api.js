@@ -2,7 +2,7 @@ import request from "./index";
 
 export const search = (params) => {
   return request({
-    url: "/api/price/search",
+    url: "/price/search",
     method: "get",
     params: params
   });
@@ -10,7 +10,7 @@ export const search = (params) => {
 
 export const category = (params) => {
   return request({
-    url: "/api/price/category",
+    url: "/price/category",
     method: "get",
     params: params
   });
@@ -19,7 +19,7 @@ export const category = (params) => {
 // period: month | day | hour | week | all
 export const charts = (id, params) => {
   return request({
-    url: `/api/charts/${id}`,
+    url: `/charts/${id}`,
     method: "get",
     params: params
   });
@@ -28,7 +28,7 @@ export const charts = (id, params) => {
 // 时间条件列表
 export const history = (id, params) => {
   return request({
-    url: `/api/price/history/${id}`,
+    url: `/price/history/${id}`,
     method: "get",
     params: params
   });
