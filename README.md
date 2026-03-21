@@ -46,10 +46,11 @@ yarn install
 如果遇到 `@achrinza/node-ipc` 引擎版本不兼容错误（通常在使用最新 Node 版本时），可以使用以下方式解决：
 
 ```bash
-# 临时忽略引擎检查
-yarn install --ignore-engines
+# 使用便捷脚本（推荐）
+yarn install:ignore-engines
 
-# 或使用 npm
+# 或手动指定忽略引擎检查
+yarn install --ignore-engines
 npm install --ignore-engines
 ```
 
