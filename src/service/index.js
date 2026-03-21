@@ -1,7 +1,7 @@
 import axios from "axios";
 import qs from "qs";
 
-import { useSystem } from "@/store";
+import { useSystem, useUser } from "@/store";
 import { message } from "@/utils/message";
 
 const service = axios.create({
@@ -14,14 +14,17 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     const systemStore = useSystem();
-    // do something before request is sent
-    // if (userStore.getters.token) {
-    //   config.headers.Authorization = `${userStore.getters.token}`;
-    // }
+    const userStore = useUser();
+
+    if (userStore.token) {
+      config.headers.Authorization = `Bearer ${userStore.token}`;
+    }
+
     if (config.method.toLowerCase() === "get" && config.params) {
       config.url = config.url + "?" + qs.stringify(config.params, { indices: false });
       config.params = null;
     }
+
     config.headers.locale = systemStore.lang;
     return config;
   },
@@ -38,59 +41,56 @@ service.interceptors.response.use(
     if (res.data instanceof Blob) {
       return res.data;
     }
-    switch (res.status / 1) {
-      case 404:
-        res.message = message.error("网络请求丢失");
-        break;
-      case 500:
-        res.message = message.error("服务维护中");
-        break;
-      case 503:
-        res.message = message.error("网络不给力，验证失败");
-        break;
-      case 504:
-        res.message = message.error("网络不给力，网关超时");
-        break;
-      case 200:
-        // res.message = message.success("操作成功!");
-        // console.log('操作成功!', res)
-        return Promise.resolve(res.data);
-      default:
-        res.message = typeof res.status === "number" ? res.message : "操作失败" + `(${res.status})!`;
-        message.error(res.message);
-        return Promise.reject(res.message);
+
+    if (res.status >= 200 && res.status < 300) {
+      return Promise.resolve(res.data);
     }
-    return Promise.resolve(res.data);
+
+    const statusMessages = {
+      401: "未授权，请重新登录",
+      404: "网络请求丢失",
+      415: "HTTP协议不匹配，请确认",
+      428: "验证码不合法",
+      500: "服务维护中",
+      503: "网络不给力，验证失败",
+      504: "网络不给力，网关超时"
+    };
+
+    const errMsg = statusMessages[res.status] || `操作失败(${res.status})`;
+    message.error(errMsg);
+
+    return Promise.reject({ status: res.status, message: errMsg, data: res.data });
   },
   (err) => {
-    console.log(err);
+    console.error(err);
 
-    // 网络状态监控
-    if (err?.response?.status) {
-      const status = err.response.status;
-      switch (status) {
-        case 401:
-          break;
-        case 404:
-          message.error("接口未找到");
-          break;
-        case 415:
-          message.error("HTTP协议不匹配，请确认");
-          break;
-        case 428:
-          message.error("验证码不合法");
-          break;
-        case 500:
-          message.error({ message: "服务未启动", type: "fail", duration: 2000 });
-          break;
-        default:
-          message.error(err.message || "服务错误");
-      }
-    } else {
-      message.error(err.message || "服务错误");
+    if (!err || !err.response) {
+      message.error(err?.message || "服务错误，请检查网络");
+      return Promise.reject(err);
     }
 
-    return Promise.reject(err.response.data);
+    const status = err.response.status;
+    const userStore = useUser();
+
+    if (status === 401) {
+      userStore.logout();
+      message.error("登录状态已过期，请重新登录");
+      window.location.reload();
+      return Promise.reject({ status, message: "未授权" });
+    }
+
+    const statusMessages = {
+      404: "接口未找到",
+      415: "HTTP协议不匹配，请确认",
+      428: "验证码不合法",
+      500: "服务未启动",
+      503: "服务暂不可用"
+    };
+
+    const errMsg = statusMessages[status] || err.message || "服务错误";
+    message.error(errMsg);
+
+    return Promise.reject({ status, message: errMsg, data: err.response.data });
   }
 );
 

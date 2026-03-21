@@ -3,7 +3,16 @@ import { defineStore } from "pinia";
 import { search } from "@/service/api";
 
 const useUserStore = defineStore("user", {
-  persist: true,
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: "user",
+        storage: localStorage,
+        paths: ["searchData"]
+      }
+    ]
+  },
   state: () => ({
     token: "",
     loading: false,

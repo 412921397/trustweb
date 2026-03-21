@@ -20,6 +20,15 @@
 prttierrc只负责代码美化，eslint只校验代码规范，而且代码提示很友好，统一代码规范，从中也可以学习到一些新写法以及新的思路，对ts写法也有一定提升
 ```
 
+## Node / Yarn 版本要求
+
+- 推荐使用 `nvm`，基础版本管理文件：`.nvmrc` = `22`
+- 如果你使用 Node 24，`yarn install` 可能会因 `@achrinza/node-ipc` 引擎约束失败。
+- 切换到兼容版本：
+  - `nvm use 22`
+  - `yarn install`
+- 临时绕过：`yarn install --ignore-engines`
+
 ## 项目内置了 tailwindcss 和 postcss
 
 ```
