@@ -1,7 +1,7 @@
 import axios from "axios";
 import qs from "qs";
 
-import { useSystem, useUser } from "@/store";
+import { useUser } from "@/store";
 import { message } from "@/utils/message";
 
 const service = axios.create({
@@ -13,12 +13,12 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   (config) => {
-    const systemStore = useSystem();
-    const userStore = useUser();
+    // const systemStore = useSystem();
+    // const userStore = useUser();
 
-    if (userStore.token) {
-      config.headers.Authorization = `Bearer ${userStore.token}`;
-    }
+    // if (userStore.token) {
+    //   config.headers.Authorization = `Bearer ${userStore.token}`;
+    // }
 
     if (config.method.toLowerCase() === "get" && config.params) {
       config.url = config.url + "?" + qs.stringify(config.params, { indices: false });
